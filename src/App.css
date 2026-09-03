@@ -186,12 +186,77 @@
   }
 }
 
-@keyframes loadingPulse {
+
+@keyframes aviao {
   0% {
-    transform: translateX(-100%);
+    transform: translateX(-105px) translateY(8px) rotate(-10deg);
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  35% {
+    transform: translateX(-45px) translateY(-3px) rotate(-7deg);
+  }
+
+  50% {
+    transform: translateX(0) translateY(-7px) rotate(-5deg);
+  }
+
+  65% {
+    transform: translateX(45px) translateY(-3px) rotate(-3deg);
+  }
+
+  85% {
+    opacity: 1;
   }
 
   100% {
-    transform: translateX(320%);
+    transform: translateX(105px) translateY(8px) rotate(0deg);
+    opacity: 0;
+  }
+}
+
+@keyframes trilha {
+  0% {
+    transform: translateX(-35px);
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 0.8;
+  }
+
+  70% {
+    transform: translateX(30px);
+    opacity: 0.35;
+  }
+
+  100% {
+    transform: translateX(70px);
+    opacity: 0;
+  }
+}
+
+@keyframes brilho {
+  0% {
+    transform: translate(-45px, -50%) scale(0.5);
+    opacity: 0;
+  }
+
+  30% {
+    opacity: 0.8;
+  }
+
+  70% {
+    transform: translate(25px, -50%) scale(1);
+    opacity: 0.2;
+  }
+
+  100% {
+    transform: translate(55px, -50%) scale(0.5);
+    opacity: 0;
   }
 }

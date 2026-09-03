@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { HeartbeatIcon, PlusIcon } from '@phosphor-icons/react';
-import { SyncLoader } from 'react-spinners';
+
+
 import type Apolice from '../../../models/Apolice';
 import { apoliceService } from '../../../services/Apolice';
 import CardApolices from '../cardapolices/CardApolices';
+import { PlusIcon, AirplaneInFlightIcon } from '@phosphor-icons/react';
 
 function ListarApolices() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -57,22 +58,33 @@ function ListarApolices() {
           </Link>
         </div>
 
+
+
         {isLoading && (
           <div className="flex flex-col items-center justify-center gap-3 py-12">
-            <div className="relative flex h-16 w-64 items-center justify-center overflow-hidden rounded-2xl border border-white/70 bg-white/45 shadow-[0_12px_35px_rgba(37,99,235,0.14)] backdrop-blur-md">
-              <div className="absolute inset-x-0 top-1/2 h-px bg-[#7C3AED]/20" />
+            <div className="relative flex h-20 w-72 items-center justify-center overflow-hidden rounded-2xl border border-white/70 bg-white/45 shadow-[0_12px_35px_rgba(37,99,235,0.14)] backdrop-blur-md">
+              <div className="absolute inset-x-5 top-1/2 h-px border-t border-dashed border-[#1689F5]/35" />
 
-              <HeartbeatIcon
-                size={42}
-                weight="duotone"
-                className="relative z-10 animate-pulse text-[#7C3AED]"
-              />
+              <div className="absolute left-8 top-1/2 -translate-y-1/2 animate-[trilha_1.6s_ease-in-out_infinite]">
+                <div className="h-1 w-20 rounded-full bg-gradient-to-r from-transparent via-[#60A5FA]/40 to-[#2563EB]/70" />
+                <div className="mt-2 h-1 w-12 rounded-full bg-gradient-to-r from-transparent via-[#A78BFA]/30 to-[#7C3AED]/60" />
+              </div>
 
-              <div className="absolute inset-y-0 left-0 w-20 animate-[loadingPulse_1.8s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-[#7C3AED]/20 to-transparent" />
+              <div className="relative z-10 animate-[aviao_2.4s_ease-in-out_infinite]">
+                <AirplaneInFlightIcon
+                  size={44}
+                  weight="duotone"
+                  className="text-[#2563EB] drop-shadow-[0_5px_8px_rgba(37,99,235,0.28)]"
+                />
+              </div>
+
+              <div className="absolute right-8 top-1/2 -translate-y-1/2 animate-[brilho_2.4s_ease-in-out_infinite]">
+                <div className="h-2 w-2 rounded-full bg-[#7C3AED]/60 blur-[1px]" />
+              </div>
             </div>
 
             <span className="text-sm font-medium text-[#526581]">
-              Carregando apólices...
+              Carregando apólices de viagem...
             </span>
           </div>
         )}

@@ -100,6 +100,17 @@ function CardApolices({ apolice }: CardApolicesProps) {
             </p>
           </div>
 
+          <div>
+            <p className="mb-1 text-xs font-medium uppercase tracking-wide text-[#6B82A3]">
+              Usuário responsável
+            </p>
+            <p className="font-semibold text-[#30476A]">
+              {typeof apolice.usuario === 'object' && apolice.usuario !== null && 'nome' in apolice.usuario
+                ? apolice.usuario.nome
+                : 'Não informado'}
+            </p>
+          </div>
+
           <div className="border-t border-white/70 pt-4">
             <p className="mb-1 text-xs font-medium uppercase tracking-wide text-[#6B82A3]">
               Período
