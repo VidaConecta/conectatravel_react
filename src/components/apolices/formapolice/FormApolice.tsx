@@ -7,7 +7,7 @@ import type Cliente from '../../../models/Cliente'
 import type Usuario from '../../../models/Usuario'
 import { apoliceService } from '../../../services/Apolice'
 import { clienteService } from '../../../services/ClienteService'
-import { calcularPremio } from '../../../utils/Premio'
+import { calcularDias, calcularPremio, destinoInternacionalComAdicional } from '../../../utils/Premio'
 
 
 const COBERTURAS = [
