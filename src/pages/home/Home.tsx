@@ -74,8 +74,8 @@ function Home() {
             <img
               className="h-full w-full object-contain object-center transition-transform duration-500 hover:scale-105"
               alt="Painel do ConectaTravel mostrando gestão de clientes e apólices de seguro viagem"
-              src="https://ik.imagekit.io/vpgms/VidaConecta/ConectaLife/ConectaLife-home.png"
-            />
+               src="https://ik.imagekit.io/lojagames/Seguro%20Viagem/Gemini_Generated_Image_z5acp5z5acp5z5ac.jpg" />
+         
           </div>
         </section>
 
