@@ -1,9 +1,9 @@
-import { useState, type ChangeEvent, type SyntheticEvent } from "react";
+import { useEffect, useState, type ChangeEvent, type SyntheticEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ClipLoader } from "react-spinners";
 
-import hero from "../../assets/hero.png";
+import MalaViajante from "../../components/malaViajante/MalaViajante";
 import type Usuario from "../../models/Usuario";
 import { cadastrarUsuario } from "../../services/Service";
 import { normalizarEmail } from "../../utils/normalizarEmail";
@@ -14,6 +14,8 @@ function Cadastro() {
 
     const [isLoading, setIsLoading] = useState(false);
     const [confirmarSenha, setConfirmarSenha] = useState("");
+    const [olhosFechados, setOlhosFechados] = useState(false);
+    const [temErro, setTemErro] = useState(false);
 
     const [usuario, setUsuario] = useState<Usuario>({
         id: 0,
@@ -22,6 +24,13 @@ function Cadastro() {
         senha: "",
         cargo: "",
     });
+
+    useEffect(() => {
+        if (!temErro) return;
+
+        const timer = setTimeout(() => setTemErro(false), 3000);
+        return () => clearTimeout(timer);
+    }, [temErro]);
 
     function atualizarEstado(e: ChangeEvent<HTMLInputElement>) {
         const { name, value } = e.target;
@@ -40,11 +49,13 @@ function Cadastro() {
 
         if (usuario.senha.length < 6) {
             ToastAlerta("A senha precisa ter pelo menos 6 caracteres.", "erro");
+            setTemErro(true);
             return;
         }
 
         if (confirmarSenha !== usuario.senha) {
             ToastAlerta("As senhas não conferem.", "erro");
+            setTemErro(true);
             setUsuario((estadoAtual) => ({
                 ...estadoAtual,
                 senha: "",
@@ -72,6 +83,8 @@ function Cadastro() {
             ToastAlerta("Usuário cadastrado com sucesso!", "sucesso");
             navigate("/");
         } catch (error) {
+            setTemErro(true);
+
             if (axios.isAxiosError(error)) {
                 if (error.response?.status === 400) {
                     ToastAlerta(
@@ -98,14 +111,22 @@ function Cadastro() {
 
     return (
         <div className="grid min-h-screen grid-cols-1 bg-[#EDF5FF] lg:grid-cols-2">
-            <div className="relative hidden overflow-hidden bg-gradient-to-br from-[#1689F5] via-[#2563EB] to-[#6D28D9] lg:flex lg:items-center lg:justify-center">
-                <div className="absolute inset-0 bg-black/10" />
+            <div
+                className="relative hidden overflow-hidden bg-cover bg-center lg:flex lg:items-center lg:justify-center lg:p-12"
+                style={{ backgroundImage: "url('https://ik.imagekit.io/lojagames/Seguro%20Viagem/aeroporto.png')" }}
+            >
+                <div className="absolute inset-0 bg-gradient-to-br from-[#1689F5]/70 via-[#2563EB]/60 to-[#6D28D9]/70" />
 
-                <img
-                    src={hero}
-                    alt="Seguro viagem ConectaTravel"
-                    className="relative z-10 max-h-[80vh] w-full object-contain p-12"
-                />
+                <div className="relative z-10 flex flex-col items-center gap-6">
+                    <MalaViajante olhosFechados={olhosFechados} triste={temErro} />
+
+                    <div className="text-center">
+                        <p className="text-lg font-semibold text-white">ConectaTravel</p>
+                        <p className="mt-1 text-sm text-[#DDEEFF]">
+                            Sua jornada de proteção começa aqui
+                        </p>
+                    </div>
+                </div>
             </div>
 
             <div className="flex items-center justify-center px-4 py-10 sm:px-8">
@@ -208,6 +229,8 @@ function Cadastro() {
                             className="w-full rounded-xl border border-[#CFE1F5] bg-white px-4 py-3 text-[#172B4D] outline-none transition focus:border-[#2563EB] focus:ring-4 focus:ring-[#2563EB]/10"
                             value={usuario.senha}
                             onChange={atualizarEstado}
+                            onFocus={() => setOlhosFechados(true)}
+                            onBlur={() => setOlhosFechados(false)}
                             minLength={6}
                             autoComplete="new-password"
                             required
@@ -230,6 +253,8 @@ function Cadastro() {
                             className="w-full rounded-xl border border-[#CFE1F5] bg-white px-4 py-3 text-[#172B4D] outline-none transition focus:border-[#2563EB] focus:ring-4 focus:ring-[#2563EB]/10"
                             value={confirmarSenha}
                             onChange={(e) => setConfirmarSenha(e.target.value)}
+                            onFocus={() => setOlhosFechados(true)}
+                            onBlur={() => setOlhosFechados(false)}
                             minLength={6}
                             autoComplete="new-password"
                             required
