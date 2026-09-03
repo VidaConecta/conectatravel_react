@@ -1,7 +1,12 @@
-import dayjs from 'dayjs'
 import { useEffect, useState, type ChangeEvent, type FormEvent } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { CalendarBlankIcon, IdentificationCardIcon, EnvelopeSimpleIcon, UserIcon, BuildingsIcon } from '@phosphor-icons/react'
+import {
+  CalendarBlankIcon,
+  IdentificationCardIcon,
+  EnvelopeSimpleIcon,
+  UserIcon,
+  BuildingsIcon
+} from '@phosphor-icons/react'
 import { ClipLoader } from 'react-spinners'
 import type Cliente from '../../../models/Cliente'
 import { clienteService } from '../../../services/ClienteService'
@@ -31,7 +36,11 @@ function FormCliente() {
     try {
       setIsLoading(true)
       setErro('')
-      const clienteEncontrado = await clienteService.buscarPorId(Number(idCliente))
+
+      const clienteEncontrado = await clienteService.buscarPorId(
+        Number(idCliente)
+      )
+
       setCliente(clienteEncontrado)
     } catch (error) {
       console.error('Erro ao buscar cliente:', error)
@@ -52,13 +61,15 @@ function FormCliente() {
     e.preventDefault()
     setErro('')
 
-    const dataNascimento = dayjs(cliente.dataNascimento)
-    const idade = dayjs().diff(dataNascimento, 'year')
-
-    if (!dataNascimento.isValid() || idade < 18) {
-      setErro('O cliente deve ser maior de idade (mínimo 18 anos).')
-      return
+    const dadosCliente = {
+      nome: cliente.nome.trim(),
+      dataNascimento: cliente.dataNascimento,
+      cpfCnpj: cliente.cpfCnpj.trim(),
+      email: cliente.email.trim(),
+      empresaTech: cliente.empresaTech.trim()
     }
+
+    console.log('Payload enviado para /clientes:', dadosCliente)
 
     try {
       setIsLoading(true)
@@ -66,17 +77,51 @@ function FormCliente() {
       if (id !== undefined) {
         const clienteAtualizado = await clienteService.atualizar(
           Number(id),
-          { ...cliente, id: undefined }
+          dadosCliente
         )
+
         alert(`Cliente ${clienteAtualizado.nome} atualizado com sucesso!`)
       } else {
-        const novoCliente = await clienteService.cadastrar(cliente)
+        const novoCliente = await clienteService.cadastrar(dadosCliente)
+
         alert(`Cliente ${novoCliente.nome} cadastrado com sucesso!`)
       }
 
       navigate('/clientes')
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erro ao salvar cliente:', error)
+      console.error('Status retornado pela API:', error.response?.status)
+      console.error('Detalhes retornados pela API:', error.response?.data)
+
+      const resposta = error.response?.data
+
+      if (typeof resposta === 'string') {
+        setErro(resposta)
+        return
+      }
+
+      if (resposta?.message) {
+        setErro(resposta.message)
+        return
+      }
+
+      if (resposta?.errors?.[0]?.defaultMessage) {
+        setErro(resposta.errors[0].defaultMessage)
+        return
+      }
+
+      if (resposta?.errors?.[0]?.message) {
+        setErro(resposta.errors[0].message)
+        return
+      }
+
+      if (error.response?.status === 400) {
+        setErro(
+          'Os dados enviados foram recusados. Verifique o console do navegador para ver o motivo retornado pela API.'
+        )
+        return
+      }
+
       setErro('Erro ao salvar cliente na API.')
     } finally {
       setIsLoading(false)
@@ -124,7 +169,11 @@ function FormCliente() {
                 htmlFor="nome"
                 className="flex items-center gap-2 text-sm font-semibold text-[#30476A]"
               >
-                <UserIcon size={18} weight="bold" className="text-[#1689F5]" />
+                <UserIcon
+                  size={18}
+                  weight="bold"
+                  className="text-[#1689F5]"
+                />
                 Nome completo
               </label>
 

@@ -25,7 +25,8 @@ const USUARIO_FIXO: Usuario = {
   id: 1,
   nome: 'Administrador',
   usuario: 'admin@conectatravel.com.br',
-  cargo: 'Corretor'
+  cargo: 'Corretor',
+  senha: ''
 }
 
 function FormApolice() {
