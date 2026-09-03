@@ -1,12 +1,19 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
-import { BookOpenIcon, InfoIcon, ListIcon, XIcon } from '@phosphor-icons/react'
+import { AirplaneTiltIcon, BookOpenIcon, InfoIcon, ListIcon, SignOutIcon, XIcon } from '@phosphor-icons/react'
 
 function Navbar() {
   const [menuAberto, setMenuAberto] = useState(false)
+  const navigate = useNavigate()
 
   function fecharMenu() {
     setMenuAberto(false)
+  }
+
+  function handleSair() {
+    localStorage.clear()
+    fecharMenu()
+    navigate('/')
   }
 
   return (
@@ -24,7 +31,7 @@ function Navbar() {
         >
           <div className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-white/80 bg-white/60 shadow-md backdrop-blur-md transition-all group-hover:scale-105 group-hover:shadow-[0_8px_20px_rgba(37,99,235,0.24)] sm:h-11 sm:w-11">
             <div className="absolute inset-0 bg-gradient-to-br from-[#1689F5]/25 via-[#2563EB]/10 to-[#7C3AED]/25" />
-            <div className="relative h-7 w-7 sm:h-8 sm:w-8 bg-gradient-to-r from-[#1689F5] to-[#7C3AED] rounded" />
+            <AirplaneTiltIcon size={22} weight="fill" className="relative bg-gradient-to-r from-[#1689F5] to-[#7C3AED] bg-clip-text text-[#2563EB]" />
           </div>
           <div className="min-w-0">
             <p className="bg-gradient-to-r from-[#1689F5] via-[#2563EB] to-[#7C3AED] bg-clip-text text-lg font-black tracking-tight text-transparent sm:text-xl">
@@ -57,6 +64,15 @@ function Navbar() {
             <InfoIcon size={17} weight="bold" />
             Sobre
           </Link>
+          <div className="mx-1 h-5 w-px bg-[#274A73]/15" />
+          <button
+            type="button"
+            onClick={handleSair}
+            className="flex items-center gap-1 rounded-xl px-3 py-2 text-[#526581] transition-all hover:bg-white/65 hover:text-[#7C3AED]"
+          >
+            <SignOutIcon size={17} weight="bold" />
+            Sair
+          </button>
         </div>
 
         <button
@@ -99,6 +115,15 @@ function Navbar() {
             <InfoIcon size={20} weight="bold" />
             Sobre o projeto
           </Link>
+          <div className="my-1 h-px bg-[#172B4D]/10" />
+          <button
+            type="button"
+            onClick={handleSair}
+            className="flex items-center gap-2 rounded-xl px-4 py-3 text-left text-[#526581] transition-all hover:bg-white/75 hover:text-[#7C3AED]"
+          >
+            <SignOutIcon size={20} weight="bold" />
+            Sair
+          </button>
         </nav>
       )}
     </header>

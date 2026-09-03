@@ -1,4 +1,4 @@
-import { EnvelopeSimpleIcon, HeartIcon, UsersIcon } from '@phosphor-icons/react'
+import { AirplaneTiltIcon, EnvelopeSimpleIcon, UsersIcon } from '@phosphor-icons/react'
 
 function Footer() {
   const anoAtual = new Date().getFullYear()
@@ -12,7 +12,7 @@ function Footer() {
       <div className="relative mx-auto grid max-w-7xl grid-cols-1 gap-6 px-6 py-6 sm:grid-cols-2 md:grid-cols-3 md:px-12 md:py-7">
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2">
-            <HeartIcon size={22} weight="fill" className="text-[#74C2FF]" />
+            <AirplaneTiltIcon size={22} weight="fill" className="text-[#74C2FF]" />
             <p className="text-lg font-black tracking-tight">
               <span className="bg-gradient-to-r from-[#74C2FF] via-[#48A9FF] to-[#B69CFF] bg-clip-text text-transparent">
                 Conecta
@@ -31,12 +31,13 @@ function Footer() {
             Nosso propósito
           </p>
           <p className="max-w-xs text-xs leading-relaxed text-[#BAD2EF]">
-            Cuidar do presente e ajudar a construir um futuro mais seguro para todos.
+            Levar segurança e tranquilidade para cada viagem, em qualquer destino do mundo.
           </p>
         </div>
 
         <div className="flex flex-col gap-2 sm:items-start md:items-end">
           <a
+          
             href="mailto:java85.grupo4@gmail.com"
             className="flex w-fit items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-3 py-2 text-xs text-[#E9F3FF] shadow-lg backdrop-blur-md transition-all hover:-translate-y-0.5 hover:border-[#74C2FF]/60 hover:bg-white/20"
           >
