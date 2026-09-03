@@ -18,11 +18,8 @@ function Navbar() {
   }
 
 function handleSair() {
-  localStorage.removeItem('token')
-  localStorage.removeItem('usuario')
-
-  fecharMenu()
-  navigate('/login', { replace: true })
+    fecharMenu();
+    navigate("/sair");
 }
 
   return (
