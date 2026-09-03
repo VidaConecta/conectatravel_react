@@ -25,7 +25,7 @@ import { AuthContext, AuthProvider } from "./contexts/AuthContext";
 
 import Cadastro from "./pages/cadastro/Cadastro";
 import Home from "./pages/home/Home";
-import Introducao from "./pages/introducao/introducao";
+import Introducao from "./pages/introducao/Introducao";
 import Login from "./pages/login/Login";
 import Sobre from "./pages/sobre/Sobre";
 
