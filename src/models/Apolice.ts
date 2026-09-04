@@ -1,4 +1,5 @@
 import type Cliente from './Cliente'
+import type Usuario from './Usuario'
 
 export type StatusApolice = 'ATIVA' | 'CANCELADA' | 'SINISTRADA'
 
@@ -11,5 +12,6 @@ export default interface Apolice {
   valorPremio: number
   status: StatusApolice | string
   coberturas: string[]
+  usuario: Usuario | { id: number }
   cliente: Cliente | { id: number }
 }

@@ -3,6 +3,7 @@ import {
   CaretLeftIcon,
   CaretRightIcon,
   GithubLogoIcon,
+  GlobeIcon,
   LinkedinLogoIcon,
   UsersThreeIcon
 } from '@phosphor-icons/react'
@@ -26,6 +27,16 @@ const LINKEDIN_LINKS: Record<string, string> = {
   vitoriaalbuquerqueee: 'https://www.linkedin.com/in/vitoria-albuqueerque'
 }
 
+// Mapeamento com os links do portfólio de todos os integrantes
+const PORTFOLIO_LINKS: Record<string, string> = {
+  'Dev-Everly': 'https://dev-everly.github.io/portifolio/',
+  victorpgms: 'https://victorpgms.github.io/portfolio-vpgms/',
+  JoelRamalhoF: 'https://joelramalhof.github.io/portfolio/',
+  SaraCarlenis: 'https://saracarlenis.github.io/portfolio/',
+  Kauedota: 'https://kauedota.github.io/portfolio/',
+  vitoriaalbuquerqueee: 'https://vitoriaalbuquerqueee.github.io/portifolio/'
+}
+
 interface DadosGithub {
   usuario: string
   nome: string
@@ -33,6 +44,7 @@ interface DadosGithub {
   bio: string
   linkPerfil: string
   linkLinkedin?: string
+  linkPortfolio?: string
 }
 
 interface Tecnologia {
@@ -90,37 +102,42 @@ function Sobre() {
 
   useEffect(() => {
     async function buscarDadosGithub() {
-      try {
-        const dados = await Promise.all(
-          USUARIOS_GITHUB.map(async (usuario) => {
-            const resposta = await fetch(
-              `https://api.github.com/users/${usuario}`
-            )
+      const resultados = await Promise.allSettled(
+        USUARIOS_GITHUB.map(async (usuario) => {
+          const resposta = await fetch(
+            `https://api.github.com/users/${usuario}`
+          )
 
-            if (!resposta.ok) {
-              throw new Error(`Não foi possível carregar o usuário ${usuario}.`)
-            }
+          if (!resposta.ok) {
+            throw new Error(`Não foi possível carregar o usuário ${usuario}.`)
+          }
 
-            const dadosApi = await resposta.json()
+          const dadosApi = await resposta.json()
 
-            return {
-              usuario,
-              nome: dadosApi.name || usuario,
-              urlAvatar:
-                dadosApi.avatar_url || 'https://via.placeholder.com/150',
-              bio: 'Membro da equipe responsável pelo projeto ConectaTravel.',
-              linkPerfil: dadosApi.html_url || `https://github.com/${usuario}`,
-              linkLinkedin: LINKEDIN_LINKS[usuario]
-            }
-          })
-        )
+          return {
+            usuario,
+            nome: dadosApi.name || usuario,
+            urlAvatar:
+              dadosApi.avatar_url || 'https://via.placeholder.com/150',
+            bio: 'Membro da equipe responsável pelo projeto ConectaTravel.',
+            linkPerfil: dadosApi.html_url || `https://github.com/${usuario}`,
+            linkLinkedin: LINKEDIN_LINKS[usuario],
+            linkPortfolio: PORTFOLIO_LINKS[usuario]
+          }
+        })
+      )
 
-        setMembros(dados)
-      } catch (erro) {
-        console.error('Erro ao buscar dados do GitHub:', erro)
-      } finally {
-        setCarregando(false)
-      }
+      const dados = resultados.flatMap((resultado) => {
+        if (resultado.status === 'fulfilled') {
+          return [resultado.value]
+        }
+
+        console.error('Erro ao buscar dados do GitHub:', resultado.reason)
+        return []
+      })
+
+      setMembros(dados)
+      setCarregando(false)
     }
 
     buscarDadosGithub()
@@ -288,6 +305,18 @@ function Sobre() {
                         >
                           <LinkedinLogoIcon size={16} weight="bold" />
                           LinkedIn
+                        </a>
+                      )}
+
+                      {membro.linkPortfolio && (
+                        <a
+                          href={membro.linkPortfolio}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 rounded-lg border border-[#7C3AED]/20 bg-[#7C3AED]/10 px-3 py-1.5 text-xs font-semibold text-[#6D28D9] shadow-sm transition-all hover:-translate-y-0.5 hover:bg-[#7C3AED]/20"
+                        >
+                          <GlobeIcon size={16} weight="bold" />
+                          Portfólio
                         </a>
                       )}
                     </div>
