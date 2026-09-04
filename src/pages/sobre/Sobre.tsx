@@ -102,38 +102,42 @@ function Sobre() {
 
   useEffect(() => {
     async function buscarDadosGithub() {
-      try {
-        const dados = await Promise.all(
-          USUARIOS_GITHUB.map(async (usuario) => {
-            const resposta = await fetch(
-              `https://api.github.com/users/${usuario}`
-            )
+      const resultados = await Promise.allSettled(
+        USUARIOS_GITHUB.map(async (usuario) => {
+          const resposta = await fetch(
+            `https://api.github.com/users/${usuario}`
+          )
 
-            if (!resposta.ok) {
-              throw new Error(`Não foi possível carregar o usuário ${usuario}.`)
-            }
+          if (!resposta.ok) {
+            throw new Error(`Não foi possível carregar o usuário ${usuario}.`)
+          }
 
-            const dadosApi = await resposta.json()
+          const dadosApi = await resposta.json()
 
-            return {
-              usuario,
-              nome: dadosApi.name || usuario,
-              urlAvatar:
-                dadosApi.avatar_url || 'https://via.placeholder.com/150',
-              bio: 'Membro da equipe responsável pelo projeto ConectaTravel.',
-              linkPerfil: dadosApi.html_url || `https://github.com/${usuario}`,
-              linkLinkedin: LINKEDIN_LINKS[usuario],
-              linkPortfolio: PORTFOLIO_LINKS[usuario]
-            }
-          })
-        )
+          return {
+            usuario,
+            nome: dadosApi.name || usuario,
+            urlAvatar:
+              dadosApi.avatar_url || 'https://via.placeholder.com/150',
+            bio: 'Membro da equipe responsável pelo projeto ConectaTravel.',
+            linkPerfil: dadosApi.html_url || `https://github.com/${usuario}`,
+            linkLinkedin: LINKEDIN_LINKS[usuario],
+            linkPortfolio: PORTFOLIO_LINKS[usuario]
+          }
+        })
+      )
 
-        setMembros(dados)
-      } catch (erro) {
-        console.error('Erro ao buscar dados do GitHub:', erro)
-      } finally {
-        setCarregando(false)
-      }
+      const dados = resultados.flatMap((resultado) => {
+        if (resultado.status === 'fulfilled') {
+          return [resultado.value]
+        }
+
+        console.error('Erro ao buscar dados do GitHub:', resultado.reason)
+        return []
+      })
+
+      setMembros(dados)
+      setCarregando(false)
     }
 
     buscarDadosGithub()

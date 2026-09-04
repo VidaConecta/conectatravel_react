@@ -3,7 +3,7 @@ import type Usuario from "../models/Usuario";
 import type UsuarioLogin from "../models/UsuarioLogin";
 
 export const api = axios.create({
-    baseURL: "https://conectatravel.onrender.com",
+    baseURL: import.meta.env.VITE_API_BASE_URL ?? "https://conectatravel.onrender.com",
 });
 
 type AtualizarDados<T> = (dados: T) => void;
