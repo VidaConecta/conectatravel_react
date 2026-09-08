@@ -6,6 +6,7 @@ import {
   InfoIcon,
   ListIcon,
   SignOutIcon,
+  UserCircleIcon,
   XIcon
 } from '@phosphor-icons/react'
  

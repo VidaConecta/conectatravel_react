@@ -27,6 +27,8 @@ import Cadastro from "./pages/cadastro/Cadastro";
 import Home from "./pages/home/Home";
 import Introducao from "./pages/introducao/Introducao";
 import Login from "./pages/login/Login";
+import AtualizarPerfil from "./pages/perfil/AtualizarPerfil";
+import Perfil from "./pages/perfil/Perfil";
 import Sobre from "./pages/sobre/Sobre";
 
 function RotaProtegida() {
@@ -75,6 +77,11 @@ function ConteudoApp() {
                         <Route path="/sair" element={<Sair />} />
                         <Route path="/introducao" element={<Introducao />} />
                         <Route path="/sobre" element={<Sobre />} />
+                        <Route path="/perfil" element={<Perfil />} />
+                        <Route
+                            path="/perfil/editar"
+                            element={<AtualizarPerfil />}
+                        />
 
                         <Route
                             path="/apolices"
