@@ -6,6 +6,7 @@ import {
   InfoIcon,
   ListIcon,
   SignOutIcon,
+  UserCircleIcon,
   XIcon
 } from '@phosphor-icons/react'
  
@@ -98,6 +99,14 @@ function handleSair() {
             <InfoIcon size={17} weight="bold" />
             Sobre
           </Link>
+
+          <Link
+            to="/perfil"
+            className="flex items-center gap-1 rounded-xl px-3 py-2 transition-all hover:bg-white/65 hover:text-[#2563EB]"
+          >
+            <UserCircleIcon size={17} weight="bold" />
+            Perfil
+          </Link>
  
           <div className="mx-1 h-5 w-px bg-[#274A73]/15" />
  
@@ -179,6 +188,15 @@ function handleSair() {
           >
             <InfoIcon size={20} weight="bold" />
             Sobre o projeto
+          </Link>
+
+          <Link
+            to="/perfil"
+            onClick={fecharMenu}
+            className="flex items-center gap-2 rounded-xl px-4 py-3 transition-all hover:bg-white/75 hover:text-[#2563EB]"
+          >
+            <UserCircleIcon size={20} weight="bold" />
+            Perfil
           </Link>
  
           <div className="my-1 h-px bg-[#172B4D]/10" />
