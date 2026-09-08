@@ -30,7 +30,7 @@ function Introducao() {
               </p>
 
               <h1 className="max-w-3xl bg-gradient-to-r from-[#126CC5] via-[#2563EB] to-[#6D28D9] bg-clip-text text-3xl font-bold text-transparent md:text-4xl">
-                Sua jornada de proteção começa aqui
+                Sua jornada de proteção começa aqui!
               </h1>
 
               <p className="mt-5 max-w-3xl text-base leading-relaxed text-[#526581] md:text-lg">
