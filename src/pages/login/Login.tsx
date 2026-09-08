@@ -8,10 +8,12 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 
-import hero from "../../assets/hero.png";
 import { AuthContext } from "../../contexts/AuthContext";
 import type UsuarioLogin from "../../models/UsuarioLogin";
 import { normalizarEmail } from "../../utils/normalizarEmail";
+
+const hero =
+    "https://ik.imagekit.io/lojagames/Seguro%20Viagem/CTravel.png";
 
 function Login() {
     const navigate = useNavigate();
@@ -139,13 +141,11 @@ function Login() {
                 </form>
             </div>
 
-            <div className="relative hidden overflow-hidden bg-gradient-to-br from-[#1689F5] via-[#2563EB] to-[#6D28D9] lg:flex lg:items-center lg:justify-center">
-                <div className="absolute inset-0 bg-black/10" />
-
+            <div className="relative hidden overflow-hidden lg:block">
                 <img
                     src={hero}
                     alt="Seguro viagem ConectaTravel"
-                    className="relative z-10 max-h-[80vh] w-full object-contain p-12"
+                    className="absolute inset-0 h-full w-full object-cover"
                 />
             </div>
         </div>
