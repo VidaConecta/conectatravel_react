@@ -1,114 +1,92 @@
-import { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { WarningCircleIcon } from '@phosphor-icons/react'
+import { ClipLoader } from 'react-spinners'
 import type Cliente from '../../../models/Cliente'
 import { clienteService } from '../../../services/ClienteService'
 
+// Página de confirmação de exclusão de um Cliente
 function DeletarCliente() {
   const navigate = useNavigate()
+
+  const [cliente, setCliente] = useState<Cliente>({} as Cliente)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
   const { id } = useParams<{ id: string }>()
 
-  const [cliente, setCliente] = useState<Cliente | null>(null)
-  const [isLoading, setIsLoading] = useState(false)
-  const [erro, setErro] = useState('')
-
-  useEffect(() => {
-    if (!id) {
-      setErro('ID do cliente não informado.')
-      return
-    }
-
-    async function carregarCliente() {
-      try {
-        setIsLoading(true)
-        setErro('')
-
-        const dados = await clienteService.buscarPorId(Number(id))
-        setCliente(dados)
-      } catch (error) {
-        console.error('Erro ao buscar cliente:', error)
-        setErro('Erro ao carregar os dados do cliente.')
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    carregarCliente()
-  }, [id])
-
-  async function confirmarExclusao() {
-    if (!id) {
-      setErro('ID do cliente não informado.')
-      return
-    }
-
+  async function buscarPorId(id: string) {
     try {
-      setIsLoading(true)
-      setErro('')
-
-      await clienteService.deletar(Number(id))
-
-      alert('Cliente excluído com sucesso!')
-      navigate('/clientes')
+      const dados = await clienteService.buscarPorId(Number(id))
+      setCliente(dados)
     } catch (error) {
-      console.error('Erro ao excluir cliente:', error)
-      setErro('Erro ao excluir o cliente.')
-    } finally {
-      setIsLoading(false)
+      alert('Erro ao buscar o cliente.')
     }
   }
 
-  function cancelar() {
+  useEffect(() => {
+    if (id !== undefined) {
+      buscarPorId(id)
+    }
+  }, [id])
+
+  async function deletarCliente() {
+    setIsLoading(true)
+
+    try {
+      await clienteService.deletar(Number(id))
+      alert('Cliente apagado com sucesso')
+    } catch (error) {
+      alert('Erro ao deletar o cliente.')
+    }
+
+    setIsLoading(false)
+    retornar()
+  }
+
+  function retornar() {
     navigate('/clientes')
   }
 
-  if (isLoading && !cliente) {
-    return (
-      <main className="flex justify-center w-full px-4 py-24">
-        <p>Carregando cliente...</p>
-      </main>
-    )
-  }
-
   return (
-    <main className="flex justify-center w-full px-4 py-24">
-      <section className="w-full max-w-md p-8 bg-white border rounded-lg">
-        <h1 className="mb-6 text-3xl text-center">
+    <main className="grow mx-auto flex w-full max-w-xl flex-col gap-8 px-4 py-24 md:px-8 md:py-28">
+      <div className="flex flex-col items-center gap-3 rounded-lg border border-slate-200 bg-white p-8 text-center">
+        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-red-50 text-red-600">
+          <WarningCircleIcon size={32} />
+        </div>
+
+        <h1 className="text-2xl font-semibold text-slate-800">
           Excluir Cliente
         </h1>
 
-        {erro && (
-          <p className="mb-4 font-bold text-center text-red-600">
-            {erro}
-          </p>
-        )}
+        <p className="text-base text-slate-600">
+          Tem certeza que deseja excluir o cliente{' '}
+          <span className="font-semibold text-slate-800">
+            {cliente.nome}
+          </span>
+          ?
+        </p>
 
-        {cliente && (
-          <p className="mb-6 text-center text-slate-700">
-            Tem certeza que deseja excluir o cliente{' '}
-            <span className="font-bold">{cliente.nome}</span>?
-          </p>
-        )}
-
-        <div className="flex flex-col gap-3 sm:flex-row">
+        <div className="mt-4 flex items-center justify-center gap-3">
           <button
-            type="button"
-            onClick={cancelar}
+            onClick={deletarCliente}
             disabled={isLoading}
-            className="w-full py-2 text-white bg-slate-500 rounded hover:bg-slate-700 disabled:opacity-60"
+            className="flex min-w-16 items-center justify-center rounded-lg bg-green-600 px-6 py-3 text-base font-medium text-white transition-colors hover:bg-green-800 disabled:opacity-60"
           >
-            Cancelar
+            {isLoading ? (
+              <ClipLoader color="#ffffff" size={24} />
+            ) : (
+              <span>Sim</span>
+            )}
           </button>
 
           <button
-            type="button"
-            onClick={confirmarExclusao}
-            disabled={isLoading || !cliente}
-            className="w-full py-2 text-white bg-red-600 rounded hover:bg-red-800 disabled:opacity-60"
+            onClick={retornar}
+            className="rounded-lg border border-slate-300 bg-red-600 px-6 py-3 text-base font-medium text-white transition-colors hover:bg-red-700"
           >
-            {isLoading ? 'Excluindo...' : 'Excluir'}
+            Não
           </button>
         </div>
-      </section>
+      </div>
     </main>
   )
 }

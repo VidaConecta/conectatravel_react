@@ -2,11 +2,13 @@ import { useEffect, useState, type ChangeEvent, type FormEvent } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { CalendarBlankIcon, FileTextIcon, UserIcon, MapPinIcon, ShieldCheckIcon, CurrencyCircleDollarIcon } from '@phosphor-icons/react'
 import { ClipLoader } from 'react-spinners'
-import { NumericFormat } from 'react-number-format'
 import type Apolice from '../../../models/Apolice'
 import type Cliente from '../../../models/Cliente'
+import type Usuario from '../../../models/Usuario'
 import { apoliceService } from '../../../services/Apolice'
 import { clienteService } from '../../../services/ClienteService'
+import { calcularDias, calcularPremio, destinoInternacionalComAdicional } from '../../../utils/Premio'
+
 
 const COBERTURAS = [
   'Despesas médicas',
@@ -17,6 +19,15 @@ const COBERTURAS = [
   'Sala VIP',
   'Internet aérea'
 ]
+
+// Usuário fixo para primeiro commit (substituir depois por autenticação real)
+const USUARIO_FIXO: Usuario = {
+  id: 1,
+  nome: 'Administrador',
+  usuario: 'admin@conectatravel.com.br',
+  cargo: 'Corretor',
+  senha: ''
+}
 
 function FormApolice() {
   const navigate = useNavigate()
@@ -33,6 +44,7 @@ function FormApolice() {
     valorPremio: 0,
     status: 'ATIVA',
     coberturas: [],
+    usuario: USUARIO_FIXO,
     cliente: { id: 0 }
   })
 
@@ -51,11 +63,20 @@ function FormApolice() {
   }, [id])
 
   function atualizarEstado(e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
-    setApolice({ ...apolice, [e.target.name]: e.target.value })
-  }
-
-  function atualizarValorPremio(valor: number | undefined) {
-    setApolice({ ...apolice, valorPremio: valor ?? 0 })
+    const novo = { ...apolice, [e.target.name]: e.target.value }
+    
+    // Recalcular prêmio automaticamente quando destino ou datas mudarem
+    if (e.target.name === 'destino' || e.target.name === 'dataInicio' || e.target.name === 'dataFim') {
+      const dataInicioVal = e.target.name === 'dataInicio' ? e.target.value : apolice.dataInicio
+      const dataFimVal = e.target.name === 'dataFim' ? e.target.value : apolice.dataFim
+      const destinoVal = e.target.name === 'destino' ? e.target.value : apolice.destino
+      
+      if (dataInicioVal && dataFimVal && destinoVal) {
+        novo.valorPremio = calcularPremio(dataInicioVal, dataFimVal, destinoVal)
+      }
+    }
+    
+    setApolice(novo)
   }
 
   function alternarCobertura(cobertura: string) {
@@ -87,7 +108,10 @@ function FormApolice() {
 
     try {
       setIsLoading(true)
-      const dados = { ...apolice }
+      const dados = {
+        ...apolice,
+        valorPremio: calcularPremio(apolice.dataInicio, apolice.dataFim, apolice.destino)
+      }
 
       if (id) {
         await apoliceService.atualizar(Number(id), dados)
@@ -119,7 +143,7 @@ function FormApolice() {
             </h1>
           </div>
           <p className="mx-auto max-w-md text-sm leading-6 text-[#526581]">
-            Informe destino, período, coberturas e cliente.
+            Informe destino, período, coberturas e cliente. O prêmio é calculado automaticamente.
           </p>
         </header>
 
@@ -197,26 +221,6 @@ function FormApolice() {
 
             <div className="flex flex-col gap-2">
               <label className="flex items-center gap-2 text-sm font-semibold text-[#30476A]">
-                <CurrencyCircleDollarIcon size={18} className="text-[#1689F5]" />
-                Valor do prêmio
-              </label>
-              <NumericFormat
-                name="valorPremio"
-                thousandSeparator="."
-                decimalSeparator=","
-                decimalScale={2}
-                fixedDecimalScale
-                allowNegative={false}
-                prefix="R$ "
-                value={apolice.valorPremio}
-                onValueChange={(values) => atualizarValorPremio(values.floatValue)}
-                className="w-full rounded-xl border border-white/80 bg-white/65 px-4 py-3 text-base text-[#172B4D] outline-none shadow-sm transition-all placeholder:text-[#8AA0BD] focus:border-[#1689F5]/50 focus:bg-white focus:ring-4 focus:ring-[#1689F5]/10"
-                placeholder="R$ 0,00"
-              />
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <label className="flex items-center gap-2 text-sm font-semibold text-[#30476A]">
                 <UserIcon size={18} className="text-[#1689F5]" />
                 Cliente
               </label>
@@ -272,6 +276,32 @@ function FormApolice() {
                   </label>
                 ))}
               </div>
+            </div>
+
+            <div className="rounded-xl border border-[#1689F5]/15 bg-[#EAF4FF]/75 p-4">
+              <p className="flex items-center gap-2 text-sm font-semibold text-[#30476A]">
+                <CurrencyCircleDollarIcon size={18} className="text-[#1689F5]" />
+                Prêmio calculado
+              </p>
+              <p className="mt-1 text-2xl font-bold text-[#172B4D]">
+                {apolice.valorPremio.toLocaleString('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL'
+                })}
+              </p>
+              <p className="text-xs text-[#526581]">
+                {calcularDias(apolice.dataInicio, apolice.dataFim)} dia(s) de viagem
+                {destinoInternacionalComAdicional(apolice.destino) && (
+                  <span className="ml-1 font-semibold text-[#1689F5]">
+                    (R$ 60/dia - destino internacional)
+                  </span>
+                )}
+                {!destinoInternacionalComAdicional(apolice.destino) && (
+                  <span className="ml-1 font-semibold text-[#1689F5]">
+                    (R$ 50/dia)
+                  </span>
+                )}
+              </p>
             </div>
 
             {erro && (
