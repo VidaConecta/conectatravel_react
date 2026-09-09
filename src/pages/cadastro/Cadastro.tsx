@@ -9,6 +9,8 @@ import { cadastrarUsuario } from "../../services/Service";
 import { normalizarEmail } from "../../utils/normalizarEmail";
 import { ToastAlerta } from "../../utils/ToastAlerta";
 
+const hero = "https://ik.imagekit.io/lojagames/Seguro%20Viagem/Inicio.png";
+
 function Cadastro() {
     const navigate = useNavigate();
 
@@ -110,28 +112,30 @@ function Cadastro() {
     }
 
     return (
-        <div className="grid min-h-screen grid-cols-1 bg-[#EDF5FF] lg:grid-cols-2">
+        <div className="relative min-h-screen overflow-hidden">
             <div
-                className="relative hidden overflow-hidden bg-cover bg-center lg:flex lg:items-center lg:justify-center lg:p-12"
-                style={{ backgroundImage: "url('https://ik.imagekit.io/lojagames/Seguro%20Viagem/aeroporto.png')" }}
-            >
-                <div className="absolute inset-0 bg-gradient-to-br from-[#1689F5]/70 via-[#2563EB]/60 to-[#6D28D9]/70" />
+                className="absolute inset-0 bg-cover bg-center"
+                style={{ backgroundImage: `url(${hero})` }}
+            />
 
-                <div className="relative z-10 flex flex-col items-center gap-6">
+            <div className="absolute inset-0 bg-gradient-to-r from-[#1689F5]/30 via-transparent to-white/10" />
+
+            <div className="relative z-10 flex min-h-screen flex-col items-center justify-center gap-10 px-4 py-10 sm:px-8 lg:flex-row lg:gap-6 lg:px-16">
+                <div className="hidden h-full lg:flex lg:w-1/2 lg:flex-col lg:items-center lg:justify-center lg:gap-6">
                     <MalaViajante olhosFechados={olhosFechados} triste={temErro} />
 
-                    <div className="text-center">
-                        <p className="text-lg font-semibold text-white">ConectaTravel</p>
+                    <div className="rounded-2xl bg-[#172B4D]/45 px-6 py-3 text-center backdrop-blur-sm">
+                        <p className="text-lg font-semibold text-white">
+                            ConectaTravel
+                        </p>
                         <p className="mt-1 text-sm text-[#DDEEFF]">
                             Sua jornada de proteção começa aqui
                         </p>
                     </div>
                 </div>
-            </div>
 
-            <div className="flex items-center justify-center px-4 py-10 sm:px-8">
                 <form
-                    className="flex w-full max-w-xl flex-col gap-4 rounded-3xl border border-white/80 bg-white/70 p-6 shadow-[0_24px_60px_rgba(37,99,235,0.18)] backdrop-blur-xl sm:p-8"
+                    className="flex w-full max-w-xl flex-col gap-4 rounded-3xl border border-white/60 bg-white/40 p-6 shadow-[0_24px_60px_rgba(23,43,77,0.25)] backdrop-blur-md sm:p-8"
                     onSubmit={cadastrarNovoUsuario}
                 >
                     <div className="mb-2 text-center">
@@ -161,7 +165,7 @@ function Cadastro() {
                             id="nome"
                             name="nome"
                             placeholder="Digite seu nome"
-                            className="w-full rounded-xl border border-[#CFE1F5] bg-white px-4 py-3 text-[#172B4D] outline-none transition focus:border-[#2563EB] focus:ring-4 focus:ring-[#2563EB]/10"
+                            className="w-full rounded-xl border border-white/70 bg-white/70 px-4 py-3 text-[#172B4D] placeholder-[#8AA0BC] outline-none transition focus:border-[#2563EB] focus:ring-4 focus:ring-[#2563EB]/10"
                             value={usuario.nome}
                             onChange={atualizarEstado}
                             autoComplete="name"
@@ -182,7 +186,7 @@ function Cadastro() {
                             id="usuario"
                             name="usuario"
                             placeholder="email@exemplo.com"
-                            className="w-full rounded-xl border border-[#CFE1F5] bg-white px-4 py-3 text-[#172B4D] outline-none transition focus:border-[#2563EB] focus:ring-4 focus:ring-[#2563EB]/10"
+                            className="w-full rounded-xl border border-white/70 bg-white/70 px-4 py-3 text-[#172B4D] placeholder-[#8AA0BC] outline-none transition focus:border-[#2563EB] focus:ring-4 focus:ring-[#2563EB]/10"
                             value={usuario.usuario}
                             onChange={atualizarEstado}
                             autoComplete="email"
@@ -203,7 +207,7 @@ function Cadastro() {
                             id="cargo"
                             name="cargo"
                             placeholder="Ex.: Corretor"
-                            className="w-full rounded-xl border border-[#CFE1F5] bg-white px-4 py-3 text-[#172B4D] outline-none transition focus:border-[#2563EB] focus:ring-4 focus:ring-[#2563EB]/10"
+                            className="w-full rounded-xl border border-white/70 bg-white/70 px-4 py-3 text-[#172B4D] placeholder-[#8AA0BC] outline-none transition focus:border-[#2563EB] focus:ring-4 focus:ring-[#2563EB]/10"
                             value={usuario.cargo}
                             onChange={atualizarEstado}
                             minLength={3}
@@ -226,7 +230,7 @@ function Cadastro() {
                             id="senha"
                             name="senha"
                             placeholder="Mínimo de 6 caracteres"
-                            className="w-full rounded-xl border border-[#CFE1F5] bg-white px-4 py-3 text-[#172B4D] outline-none transition focus:border-[#2563EB] focus:ring-4 focus:ring-[#2563EB]/10"
+                            className="w-full rounded-xl border border-white/70 bg-white/70 px-4 py-3 text-[#172B4D] placeholder-[#8AA0BC] outline-none transition focus:border-[#2563EB] focus:ring-4 focus:ring-[#2563EB]/10"
                             value={usuario.senha}
                             onChange={atualizarEstado}
                             onFocus={() => setOlhosFechados(true)}
@@ -250,7 +254,7 @@ function Cadastro() {
                             id="confirmarSenha"
                             name="confirmarSenha"
                             placeholder="Digite novamente sua senha"
-                            className="w-full rounded-xl border border-[#CFE1F5] bg-white px-4 py-3 text-[#172B4D] outline-none transition focus:border-[#2563EB] focus:ring-4 focus:ring-[#2563EB]/10"
+                            className="w-full rounded-xl border border-white/70 bg-white/70 px-4 py-3 text-[#172B4D] placeholder-[#8AA0BC] outline-none transition focus:border-[#2563EB] focus:ring-4 focus:ring-[#2563EB]/10"
                             value={confirmarSenha}
                             onChange={(e) => setConfirmarSenha(e.target.value)}
                             onFocus={() => setOlhosFechados(true)}
@@ -264,7 +268,7 @@ function Cadastro() {
                     <div className="flex flex-col-reverse gap-3 pt-2 sm:flex-row">
                         <button
                             type="button"
-                            className="min-h-12 w-full rounded-xl border border-[#CFE1F5] bg-white px-5 py-3 font-semibold text-[#172B4D] transition hover:bg-[#EDF5FF]"
+                            className="min-h-12 w-full rounded-xl border border-white/70 bg-white/70 px-5 py-3 font-semibold text-[#172B4D] transition hover:bg-white"
                             onClick={retornarParaLogin}
                         >
                             Cancelar

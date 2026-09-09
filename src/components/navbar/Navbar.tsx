@@ -107,7 +107,7 @@ function handleSair() {
             <UserCircleIcon size={17} weight="bold" />
             Perfil
           </Link>
- 
+
           <div className="mx-1 h-5 w-px bg-[#274A73]/15" />
  
           <button
@@ -198,7 +198,7 @@ function handleSair() {
             <UserCircleIcon size={20} weight="bold" />
             Perfil
           </Link>
- 
+
           <div className="my-1 h-px bg-[#172B4D]/10" />
  
           <button
