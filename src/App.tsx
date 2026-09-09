@@ -14,6 +14,8 @@ import DeletarApolice from "./components/apolices/deletarapolices/DeletarApolice
 import FormApolice from "./components/apolices/formapolice/FormApolice";
 import ListarApolices from "./components/apolices/listapolices/ListarApolices";
 
+import ChatbotWidget from "./components/chatbot/ChatbotWidget";
+
 import DeletarCliente from "./components/clientes/deletarcliente/DeletarCliente";
 import FormCliente from "./components/clientes/formcliente/FormCliente";
 import ListarClientes from "./components/clientes/listaclientes/ListarClientes";
@@ -127,6 +129,8 @@ function ConteudoApp() {
             </main>
 
             {estaAutenticado && <Footer />}
+
+            <ChatbotWidget />
         </div>
     );
 }
