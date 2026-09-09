@@ -1,4 +1,4 @@
-import { PencilSimpleIcon, TrashSimpleIcon } from '@phosphor-icons/react'
+import { TrashSimpleIcon } from '@phosphor-icons/react'
 import { Link } from 'react-router-dom'
 import type Apolice from '../../../models/Apolice'
 
