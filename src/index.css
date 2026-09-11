@@ -1,13 +1,16 @@
 @import "tailwindcss";
 
-/* Ativado quando a classe .high-contrast é adicionada no <html>
+/* ==========================================================
+   ALTO CONTRASTE
+   Ativado quando a classe .high-contrast é adicionada no <html>
    pelo AccessibilityContext (toggleHighContrast).
 
    filter: invert(1) -> inverte todas as cores da tela (fundo escuro
    vira claro e vice-versa), aumentando o contraste geral.
    hue-rotate(180deg) -> corrige o "deslocamento" de matiz que o invert
    sozinho causaria (sem isso, azul viraria laranja, por exemplo,
-   e as cores ficariam estranhas em vez de só inverter claro/escuro) */
+   e as cores ficariam estranhas em vez de só inverter claro/escuro)
+   ========================================================== */
 .high-contrast {
   filter: invert(1) hue-rotate(180deg);
 }
@@ -20,4 +23,31 @@
 .high-contrast img,
 .high-contrast video {
   filter: invert(1) hue-rotate(180deg);
+}
+
+/* ==========================================================
+   VLIBRAS — reposicionamento do widget
+   O VLibras injeta seus próprios elementos fixos no canto
+   direito da tela por padrão. Como o ChatbotWidget também usa
+   esse canto, reposicionamos o botão do VLibras mais pra cima
+   pra evitar sobreposição, principalmente no mobile onde a
+   tela é estreita.
+   ========================================================== */
+div[vw] {
+  z-index: 40 !important; /* mantém abaixo de modais, mas acima do conteúdo */
+}
+
+div[vw-access-button] {
+  top: auto !important;
+  bottom: 100px !important; /* empurra pra cima, deixando espaço pro chatbot embaixo */
+  right: 10px !important;
+}
+
+/* Em telas pequenas, reduz ainda mais o tamanho do botão do VLibras
+   pra não ocupar espaço demais */
+@media (max-width: 640px) {
+  div[vw-access-button] {
+    transform: scale(0.85);
+    bottom: 90px !important;
+  }
 }
