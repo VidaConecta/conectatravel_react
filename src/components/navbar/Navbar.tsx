@@ -8,6 +8,7 @@ import {
   SignOutIcon,
   XIcon
 } from '@phosphor-icons/react'
+import Acessibilidade from '../acessibilidade/Acessibilidade'
  
 function Navbar() {
   const [menuAberto, setMenuAberto] = useState(false)
@@ -110,6 +111,10 @@ function handleSair() {
             Sair
           </button>
         </div>
+        {/* Barra de acessibilidade fica FORA do bloco "hidden xl:flex" acima
+            de propósito: assim ela aparece em qualquer tamanho de tela,
+            já que acessibilidade não deveria sumir só porque é mobile */}
+        <Acessibilidade/>
  
         <button
           type="button"
@@ -131,6 +136,10 @@ function handleSair() {
           className="relative flex max-h-[calc(100vh-76px)] flex-col gap-2 overflow-y-auto border-t border-white/70 bg-[#EAF4FF]/90 px-4 py-4 text-base font-semibold text-[#172B4D] shadow-xl backdrop-blur-2xl sm:px-6 xl:hidden"
           aria-label="Navegação mobile"
         >
+          {/* Controles de acessibilidade repetidos aqui em versão "mobile"
+              (mais espaçada), pra quem já abriu o menu ter acesso rápido
+              sem precisar rolar a página até o topo pra fechar o menu antes */}
+          <Acessibilidade variant="mobile" />
           <Link
             to="/"
             onClick={fecharMenu}

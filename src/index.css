@@ -1,1 +1,23 @@
 @import "tailwindcss";
+
+/* Ativado quando a classe .high-contrast é adicionada no <html>
+   pelo AccessibilityContext (toggleHighContrast).
+
+   filter: invert(1) -> inverte todas as cores da tela (fundo escuro
+   vira claro e vice-versa), aumentando o contraste geral.
+   hue-rotate(180deg) -> corrige o "deslocamento" de matiz que o invert
+   sozinho causaria (sem isso, azul viraria laranja, por exemplo,
+   e as cores ficariam estranhas em vez de só inverter claro/escuro) */
+.high-contrast {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+/* Imagens e vídeos, se não forem tratados separadamente, ficariam
+   com as cores erradas depois do invert do body inteiro (ex: fotos
+   ficariam com "cores de negativo"). Aplicando o filtro DE NOVO
+   nelas, a segunda inversão cancela a primeira e a imagem volta
+   a ficar com as cores originais, mesmo com o resto da tela invertido. */
+.high-contrast img,
+.high-contrast video {
+  filter: invert(1) hue-rotate(180deg);
+}

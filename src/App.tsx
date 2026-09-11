@@ -28,6 +28,7 @@ import Home from "./pages/home/Home";
 import Introducao from "./pages/introducao/Introducao";
 import Login from "./pages/login/Login";
 import Sobre from "./pages/sobre/Sobre";
+import VLibrasWidget from "./components/acessibilidade/AcessibilidadeLibras";
 
 function RotaProtegida() {
     const { usuario } = useContext(AuthContext);
@@ -120,6 +121,10 @@ function ConteudoApp() {
             </main>
 
             {estaAutenticado && <Footer />}
+            {/* VLibrasWidget fica UMA única vez no nível mais alto do App,
+          fora das rotas — ele injeta um botão flutuante fixo na tela
+          que persiste independente de qual página está sendo exibida */}
+            <VLibrasWidget />
         </div>
     );
 }
