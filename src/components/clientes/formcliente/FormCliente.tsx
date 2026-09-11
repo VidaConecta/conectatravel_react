@@ -69,8 +69,6 @@ function FormCliente() {
       empresaTech: cliente.empresaTech.trim()
     }
 
-    console.log('Payload enviado para /clientes:', dadosCliente)
-
     try {
       setIsLoading(true)
 

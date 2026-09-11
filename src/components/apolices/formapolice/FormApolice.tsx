@@ -9,7 +9,6 @@ import { apoliceService } from '../../../services/Apolice'
 import { clienteService } from '../../../services/ClienteService'
 import { calcularDias, calcularPremio, destinoInternacionalComAdicional } from '../../../utils/Premio'
 
-
 const COBERTURAS = [
   'Despesas médicas',
   'Extravio de bagagem',
@@ -253,6 +252,7 @@ function FormApolice() {
                 <option value="ATIVA">Ativa</option>
                 <option value="CANCELADA">Cancelada</option>
                 <option value="SINISTRADA">Sinistrada</option>
+                <option value="FINALIZADA">Finalizada</option>
               </select>
             </div>
 

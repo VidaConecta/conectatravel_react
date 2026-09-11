@@ -1,7 +1,7 @@
 import type Cliente from './Cliente'
 import type Usuario from './Usuario'
 
-export type StatusApolice = 'ATIVA' | 'CANCELADA' | 'SINISTRADA'
+export type StatusApolice = 'ATIVA' | 'CANCELADA' | 'SINISTRADA' | 'FINALIZADA'
 
 export default interface Apolice {
   id?: number

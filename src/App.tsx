@@ -14,6 +14,8 @@ import DeletarApolice from "./components/apolices/deletarapolices/DeletarApolice
 import FormApolice from "./components/apolices/formapolice/FormApolice";
 import ListarApolices from "./components/apolices/listapolices/ListarApolices";
 
+import ChatbotWidget from "./components/chatbot/ChatbotWidget";
+
 import DeletarCliente from "./components/clientes/deletarcliente/DeletarCliente";
 import FormCliente from "./components/clientes/formcliente/FormCliente";
 import ListarClientes from "./components/clientes/listaclientes/ListarClientes";
@@ -27,6 +29,8 @@ import Cadastro from "./pages/cadastro/Cadastro";
 import Home from "./pages/home/Home";
 import Introducao from "./pages/introducao/Introducao";
 import Login from "./pages/login/Login";
+import AtualizarPerfil from "./pages/perfil/AtualizarPerfil";
+import Perfil from "./pages/perfil/Perfil";
 import Sobre from "./pages/sobre/Sobre";
 import VLibrasWidget from "./components/acessibilidade/AcessibilidadeLibras";
 
@@ -76,6 +80,11 @@ function ConteudoApp() {
                         <Route path="/sair" element={<Sair />} />
                         <Route path="/introducao" element={<Introducao />} />
                         <Route path="/sobre" element={<Sobre />} />
+                        <Route path="/perfil" element={<Perfil />} />
+                        <Route
+                            path="/perfil/editar"
+                            element={<AtualizarPerfil />}
+                        />
 
                         <Route
                             path="/apolices"
@@ -125,6 +134,8 @@ function ConteudoApp() {
           fora das rotas — ele injeta um botão flutuante fixo na tela
           que persiste independente de qual página está sendo exibida */}
             <VLibrasWidget />
+
+            <ChatbotWidget />
         </div>
     );
 }
