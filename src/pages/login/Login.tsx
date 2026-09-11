@@ -12,7 +12,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 import type UsuarioLogin from "../../models/UsuarioLogin";
 import { normalizarEmail } from "../../utils/normalizarEmail";
 
-const hero = "https://ik.imagekit.io/lojagames/Seguro%20Viagem/CTravel.png";
+const hero = "https://ik.imagekit.io/lojagames/Seguro%20Viagem/travel.jpg";
 
 function Login() {
     const navigate = useNavigate();
@@ -52,7 +52,7 @@ function Login() {
     }
 
     return (
-        <div className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-10 lg:justify-end lg:px-24">
+        <div className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-10 lg:justify-start lg:px-24">
             <div
                 className="absolute inset-0 bg-cover bg-center"
                 style={{ backgroundImage: `url(${hero})` }}
