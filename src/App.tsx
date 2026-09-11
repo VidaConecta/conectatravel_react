@@ -32,6 +32,7 @@ import Login from "./pages/login/Login";
 import AtualizarPerfil from "./pages/perfil/AtualizarPerfil";
 import Perfil from "./pages/perfil/Perfil";
 import Sobre from "./pages/sobre/Sobre";
+import VLibrasWidget from "./components/acessibilidade/AcessibilidadeLibras";
 
 function RotaProtegida() {
     const { usuario } = useContext(AuthContext);
@@ -129,6 +130,10 @@ function ConteudoApp() {
             </main>
 
             {estaAutenticado && <Footer />}
+            {/* VLibrasWidget fica UMA única vez no nível mais alto do App,
+          fora das rotas — ele injeta um botão flutuante fixo na tela
+          que persiste independente de qual página está sendo exibida */}
+            <VLibrasWidget />
 
             <ChatbotWidget />
         </div>
