@@ -22,7 +22,7 @@ O **ConectaTravel** é uma aplicação web de gerenciamento de seguros de viagem
 
 A plataforma permite que usuários autenticados cadastrem clientes, criem apólices de viagem, acompanhem informações de cobertura, consultem valores de prêmio e realizem operações de edição ou exclusão dos registros. O projeto utiliza uma identidade visual inspirada em viagens, tecnologia e segurança, com tons de azul e roxo, gradientes, transparências e animações.
 
-A aplicação também conta com autenticação de usuários, gerenciamento de perfil, uma tela de introdução, uma página Sobre com carrossel da equipe integrado à API pública do GitHub e uma mala de viagem interativa no cadastro de usuários.
+A aplicação também conta com autenticação de usuários, gerenciamento de perfil, uma tela de introdução, uma página Sobre com carrossel da equipe integrado à API pública do GitHub, uma mala de viagem interativa no cadastro de usuários, um assistente virtual com respostas rápidas e um conjunto completo de recursos de acessibilidade, incluindo tradução em Libras.
 
 **Deploy:** [conectatravel-react-ten.vercel.app](https://conectatravel-react-ten.vercel.app/)
 
@@ -63,6 +63,23 @@ A aplicação também conta com autenticação de usuários, gerenciamento de pe
 - Cálculo automático do valor do prêmio.
 - Exibição do período, destino, cliente, responsável, status e valor da apólice.
 
+### Acessibilidade
+
+- Aumento e diminuição do tamanho da fonte em toda a aplicação.
+- Restauração do tamanho padrão da fonte.
+- Alternância de modo de alto contraste.
+- Barra de acessibilidade compacta em telas menores, com painel expansível.
+- Tradução em Libras por meio do plugin oficial VLibras (governo federal).
+- Componentes com `aria-label`, `aria-pressed` e `role="toolbar"` para leitores de tela.
+
+### Assistente virtual
+
+- Central de ajuda flutuante disponível em todas as páginas.
+- Respostas rápidas por tópicos pré-definidos (seguro viagem, cadastro de apólice, cadastro de cliente, edição de perfil, lentidão no carregamento).
+- Redirecionamento direto para páginas internas a partir das respostas do assistente.
+- Encaminhamento para atendimento humano via WhatsApp.
+- Histórico da conversa com opção de reiniciar o atendimento.
+
 ### Experiência e apresentação
 
 - Navbar fixa e responsiva.
@@ -74,6 +91,7 @@ A aplicação também conta com autenticação de usuários, gerenciamento de pe
 - Design responsivo para celular, tablet e desktop.
 - Página Sobre com carrossel da equipe.
 - Consulta de perfis públicos dos integrantes pela API gratuita do GitHub.
+- Mala de viagem interativa (SVG animado) na tela de cadastro.
 
 ---
 
@@ -97,28 +115,30 @@ A aplicação também conta com autenticação de usuários, gerenciamento de pe
 | Editar Perfil     | Permite atualizar os dados do usuário                      |
 | Sobre             | Apresenta a proposta do projeto e os integrantes da equipe |
 
+> Além das telas principais, a aplicação conta com uma central de ajuda (assistente virtual) e uma barra de acessibilidade, ambos disponíveis como componentes flutuantes em qualquer página.
+
 ---
 
 ## Rotas
 
 | Rota                    | Componente        | Finalidade                      |
-| ----------------------- | ----------------- | ------------------------------- |
-| `/`                     | `Login`           | Tela de autenticação            |
-| `/cadastro`             | `Cadastro`        | Cadastro de novos usuários      |
-| `/home`                 | `Home`            | Página inicial                  |
-| `/sair`                 | `Sair`            | Realiza o logout do usuário     |
-| `/introducao`           | `Introducao`      | Guia de primeiros passos        |
-| `/sobre`                | `Sobre`           | Informações do projeto e equipe |
-| `/perfil`               | `Perfil`          | Perfil do usuário autenticado   |
-| `/perfil/editar`        | `AtualizarPerfil` | Atualização dos dados do perfil |
-| `/clientes`             | `ListarClientes`  | Listagem de clientes            |
-| `/clientes/cadastrar`   | `FormCliente`     | Cadastro de cliente             |
-| `/clientes/editar/:id`  | `FormCliente`     | Edição de cliente               |
-| `/clientes/deletar/:id` | `DeletarCliente`  | Exclusão de cliente             |
-| `/apolices`             | `ListarApolices`  | Listagem de apólices            |
-| `/cadastrarapolice`     | `FormApolice`     | Cadastro de apólice             |
-| `/editarapolice/:id`    | `FormApolice`     | Edição de apólice               |
-| `/deletarapolice/:id`   | `DeletarApolice`  | Exclusão de apólice             |
+| ----------------------- | ----------------- | -------------------------------- |
+| `/`                     | `Login`           | Tela de autenticação             |
+| `/cadastro`             | `Cadastro`        | Cadastro de novos usuários       |
+| `/home`                 | `Home`            | Página inicial                   |
+| `/sair`                 | `Sair`            | Realiza o logout do usuário      |
+| `/introducao`           | `Introducao`      | Guia de primeiros passos         |
+| `/sobre`                | `Sobre`           | Informações do projeto e equipe  |
+| `/perfil`               | `Perfil`          | Perfil do usuário autenticado    |
+| `/perfil/editar`        | `AtualizarPerfil` | Atualização dos dados do perfil  |
+| `/clientes`             | `ListarClientes`  | Listagem de clientes             |
+| `/clientes/cadastrar`   | `FormCliente`     | Cadastro de cliente              |
+| `/clientes/editar/:id`  | `FormCliente`     | Edição de cliente                |
+| `/clientes/deletar/:id` | `DeletarCliente`  | Exclusão de cliente              |
+| `/apolices`             | `ListarApolices`  | Listagem de apólices             |
+| `/cadastrarapolice`     | `FormApolice`     | Cadastro de apólice              |
+| `/editarapolice/:id`    | `FormApolice`     | Edição de apólice                |
+| `/deletarapolice/:id`   | `DeletarApolice`  | Exclusão de apólice              |
 
 > As rotas internas da aplicação são protegidas e exigem autenticação. Caso o usuário não possua token válido, é redirecionado para a página de login.
 
@@ -127,20 +147,21 @@ A aplicação também conta com autenticação de usuários, gerenciamento de pe
 ## Tecnologias utilizadas
 
 | Categoria        | Tecnologia       | Utilização no projeto                                    |
-| ---------------- | ---------------- | -------------------------------------------------------- |
-| Linguagem        | TypeScript       | Tipagem estática de componentes, estados e modelos       |
-| Biblioteca       | React            | Construção da interface baseada em componentes           |
-| Build tool       | Vite             | Ambiente de desenvolvimento e build de produção          |
-| Estilização      | Tailwind CSS     | Layout, responsividade, gradientes e componentes visuais |
-| Rotas            | React Router DOM | Navegação e proteção de rotas                            |
-| Requisições HTTP | Axios            | Consumo da API REST do backend                           |
-| Estado global    | Context API      | Gerenciamento da autenticação do usuário                 |
-| Notificações     | React Toastify   | Feedback visual para ações e mensagens                   |
-| Loaders          | React Spinners   | Indicadores de carregamento                              |
-| Ícones           | Phosphor Icons   | Ícones utilizados na interface                           |
-| API externa      | GitHub API       | Consulta de perfis públicos da equipe                    |
-| Versionamento    | Git e GitHub     | Controle de versões e colaboração                        |
-| Hospedagem       | Vercel           | Deploy do frontend                                       |
+| ---------------- | ---------------- | ---------------------------------------------------------- |
+| Linguagem        | TypeScript       | Tipagem estática de componentes, estados e modelos        |
+| Biblioteca       | React            | Construção da interface baseada em componentes            |
+| Build tool       | Vite             | Ambiente de desenvolvimento e build de produção            |
+| Estilização      | Tailwind CSS     | Layout, responsividade, gradientes e componentes visuais   |
+| Rotas            | React Router DOM | Navegação e proteção de rotas                              |
+| Requisições HTTP | Axios            | Consumo da API REST do backend                             |
+| Estado global    | Context API      | Autenticação do usuário e preferências de acessibilidade   |
+| Notificações     | React Toastify   | Feedback visual para ações e mensagens                     |
+| Loaders          | React Spinners   | Indicadores de carregamento                                |
+| Ícones           | Phosphor Icons   | Ícones utilizados na interface                             |
+| API externa      | GitHub API       | Consulta de perfis públicos da equipe                      |
+| Acessibilidade   | VLibras          | Tradução da interface para Libras (plugin oficial do governo) |
+| Versionamento    | Git e GitHub     | Controle de versões e colaboração                          |
+| Hospedagem       | Vercel           | Deploy do frontend                                         |
 
 ---
 
@@ -152,11 +173,16 @@ A aplicação é organizada por responsabilidade, separando páginas, componente
 src/
 ├── assets/
 ├── components/
+│   ├── acessibilidade/
+│   │   └── Acessibilidade.tsx
 │   ├── apolices/
 │   │   ├── cardapolices/
 │   │   ├── deletarapolices/
 │   │   ├── formapolice/
 │   │   └── listapolices/
+│   ├── chatbot/
+│   │   ├── ChatbotWidget.tsx
+│   │   └── topicos.ts
 │   ├── clientes/
 │   │   ├── cardclientes/
 │   │   ├── deletarcliente/
@@ -165,8 +191,12 @@ src/
 │   ├── footer/
 │   ├── malaViajante/
 │   │   └── MalaViajante.tsx
-│   └── navbar/
+│   ├── navbar/
+│   └── vlibras/
+│       └── VLibrasWidget.tsx
 ├── contexts/
+│   ├── acessibilidade/
+│   │   └── AcessibilidadeContext.tsx
 │   └── AuthContext.tsx
 ├── models/
 │   ├── Apolice.ts
@@ -195,17 +225,17 @@ src/
 
 ### Organização por responsabilidade
 
-| Diretório    | Responsabilidade                                             |
-| ------------ | ------------------------------------------------------------ |
-| `components` | Componentes reutilizáveis e telas relacionadas a clientes, apólices, navegação e rodapé |
-| `contexts`   | Estado global e autenticação do usuário                      |
-| `models`     | Interfaces TypeScript que representam as entidades da aplicação |
-| `pages`      | Páginas principais, como login, cadastro, perfil e sobre     |
-| `services`   | Comunicação com a API REST                                   |
-| `utils`      | Funções de apoio, incluindo cálculo de prêmio                |
-| `assets`     | Arquivos estáticos e imagens                                 |
-| `App.tsx`    | Configuração de rotas, layout e proteção de acesso           |
-| `main.tsx`   | Ponto de entrada da aplicação React                          |
+| Diretório    | Responsabilidade                                                       |
+| ------------ | ------------------------------------------------------------------------ |
+| `components` | Componentes reutilizáveis: clientes, apólices, navegação, rodapé, acessibilidade, chatbot e widget de Libras |
+| `contexts`   | Estado global: autenticação do usuário e preferências de acessibilidade  |
+| `models`     | Interfaces TypeScript que representam as entidades da aplicação          |
+| `pages`      | Páginas principais, como login, cadastro, perfil e sobre                 |
+| `services`   | Comunicação com a API REST                                               |
+| `utils`      | Funções de apoio, incluindo cálculo de prêmio                            |
+| `assets`     | Arquivos estáticos e imagens                                             |
+| `App.tsx`    | Configuração de rotas, layout e proteção de acesso                       |
+| `main.tsx`   | Ponto de entrada da aplicação React                                      |
 
 ---
 
@@ -225,13 +255,13 @@ export default interface Cliente {
 ```
 
 | Campo            | Tipo     | Descrição                                                |
-| ---------------- | -------- | -------------------------------------------------------- |
-| `id`             | `number` | Identificador do cliente                                 |
-| `nome`           | `string` | Nome completo do cliente                                 |
-| `dataNascimento` | `string` | Data de nascimento                                       |
-| `cpfCnpj`        | `string` | CPF ou CNPJ do cliente                                   |
-| `email`          | `string` | E-mail de contato                                        |
-| `empresaTech`    | `string` | Empresa de tecnologia ou instituição de ensino vinculada |
+| ---------------- | -------- | ---------------------------------------------------------- |
+| `id`             | `number` | Identificador do cliente                                    |
+| `nome`           | `string` | Nome completo do cliente                                    |
+| `dataNascimento` | `string` | Data de nascimento                                           |
+| `cpfCnpj`        | `string` | CPF ou CNPJ do cliente                                       |
+| `email`          | `string` | E-mail de contato                                             |
+| `empresaTech`    | `string` | Empresa de tecnologia ou instituição de ensino vinculada     |
 
 ### Apólice
 
@@ -250,18 +280,18 @@ export default interface Apolice {
 }
 ```
 
-| Campo           | Tipo       | Descrição                           |
-| --------------- | ---------- | ----------------------------------- |
-| `id`            | `number`   | Identificador da apólice            |
-| `numeroApolice` | `string`   | Número identificador da apólice     |
-| `destino`       | `string`   | Destino da viagem                   |
-| `dataInicio`    | `string`   | Data inicial da vigência            |
-| `dataFim`       | `string`   | Data final da vigência              |
-| `valorPremio`   | `number`   | Valor calculado do prêmio do seguro |
-| `status`        | `string`   | Situação atual da apólice           |
-| `coberturas`    | `string[]` | Lista de coberturas selecionadas    |
-| `usuario`       | `Usuario`  | Usuário responsável pela apólice    |
-| `cliente`       | `Cliente`  | Cliente vinculado à apólice         |
+| Campo           | Tipo       | Descrição                             |
+| --------------- | ---------- | -------------------------------------- |
+| `id`            | `number`   | Identificador da apólice               |
+| `numeroApolice` | `string`   | Número identificador da apólice        |
+| `destino`       | `string`   | Destino da viagem                      |
+| `dataInicio`    | `string`   | Data inicial da vigência               |
+| `dataFim`       | `string`   | Data final da vigência                 |
+| `valorPremio`   | `number`   | Valor calculado do prêmio do seguro    |
+| `status`        | `string`   | Situação atual da apólice              |
+| `coberturas`    | `string[]` | Lista de coberturas selecionadas       |
+| `usuario`       | `Usuario`  | Usuário responsável pela apólice       |
+| `cliente`       | `Cliente`  | Cliente vinculado à apólice            |
 
 ### Usuário
 
@@ -316,12 +346,50 @@ O valor do prêmio é calculado automaticamente com base na quantidade de dias d
 
 ### Status de apólice
 
-| Status       | Descrição                          |
-| ------------ | ---------------------------------- |
-| `ATIVA`      | Apólice vigente e em funcionamento |
-| `CANCELADA`  | Apólice cancelada                  |
-| `SINISTRADA` | Apólice associada a um sinistro    |
-| `FINALIZADA` | Apólice encerrada                  |
+| Status       | Descrição                            |
+| ------------ | -------------------------------------- |
+| `ATIVA`      | Apólice vigente e em funcionamento     |
+| `CANCELADA`  | Apólice cancelada                      |
+| `SINISTRADA` | Apólice associada a um sinistro        |
+| `FINALIZADA` | Apólice encerrada                      |
+
+---
+
+## Acessibilidade
+
+O ConectaTravel foi construído com preocupação de inclusão em múltiplas camadas, combinando ajustes visuais próprios da aplicação com um plugin oficial de tradução em Libras.
+
+### Controles de fonte e contraste
+
+- **Aumentar fonte**: incrementa o tamanho da letra em toda a aplicação.
+- **Diminuir fonte**: reduz o tamanho da letra em toda a aplicação.
+- **Restaurar padrão**: retorna o tamanho da fonte ao valor original.
+- **Alto contraste**: alterna um modo de cores com maior contraste, útil para usuários com baixa visão.
+
+O estado desses controles é gerenciado por um `AcessibilidadeContext`, disponível para toda a árvore de componentes via Context API. Em telas menores, os controles de fonte ficam agrupados em um botão único que abre um painel flutuante; o botão de alto contraste permanece sempre visível e acessível com um único clique.
+
+### Tradução em Libras (VLibras)
+
+A aplicação integra o **VLibras**, plugin oficial do governo federal brasileiro (`vlibras.gov.br`), que injeta um avatar 3D capaz de traduzir o conteúdo da página para Língua Brasileira de Sinais. O widget é carregado dinamicamente via script externo, sem impacto no tempo de carregamento inicial da aplicação.
+
+### Boas práticas de leitura de tela
+
+- Uso de `role="toolbar"` para agrupar controles relacionados.
+- `aria-label` descritivo em botões sem texto visível.
+- `aria-pressed` no botão de alto contraste, indicando seu estado atual como um toggle.
+- `aria-expanded` e `aria-haspopup` nos botões que abrem painéis flutuantes.
+
+---
+
+## Assistente virtual
+
+A aplicação conta com uma central de ajuda flutuante, disponível em qualquer página, representada por um piloto que atua como assistente virtual do ConectaTravel.
+
+- O usuário pode escolher entre tópicos pré-definidos, como dúvidas sobre seguro viagem, cadastro de apólice, cadastro de cliente, edição de perfil e lentidão no carregamento da página.
+- Cada resposta pode conter um link de redirecionamento direto para a página relacionada dentro da aplicação (por exemplo, a resposta sobre cadastro de apólice leva direto para a tela de cadastro).
+- Um dos tópicos encaminha o usuário para atendimento humano via WhatsApp.
+- O histórico da conversa é mantido durante a sessão e pode ser reiniciado a qualquer momento.
+- Um convite de ajuda aparece automaticamente após alguns segundos de navegação, podendo ser fechado pelo usuário.
 
 ---
 
@@ -433,13 +501,13 @@ npm run preview
 
 ## Scripts disponíveis
 
-| Comando           | Finalidade                               |
-| ----------------- | ---------------------------------------- |
-| `npm install`     | Instala as dependências do projeto       |
-| `npm run dev`     | Inicia o servidor de desenvolvimento     |
-| `npm run build`   | Gera a build otimizada para produção     |
-| `npm run preview` | Executa a build de produção localmente   |
-| `npm run lint`    | Executa a análise de qualidade do código |
+| Comando           | Finalidade                                 |
+| ----------------- | -------------------------------------------- |
+| `npm install`     | Instala as dependências do projeto           |
+| `npm run dev`     | Inicia o servidor de desenvolvimento          |
+| `npm run build`   | Gera a build otimizada para produção          |
+| `npm run preview` | Executa a build de produção localmente        |
+| `npm run lint`    | Executa a análise de qualidade do código      |
 
 ---
 
